@@ -1,0 +1,31 @@
+name: deploy
+on:
+  push:
+      branches: [ branch1, branch2, branch3 ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+      if: ${{ push.branches == 'branch1' }}
+      - name: 'Run az commands'
+        run: |
+           az list vm
+      if: ${{ push.branches == 'branch2' }}
+      - name: 'Run az commands'
+        run: |
+           az list vm
+      if: ${{ push.branches == 'branch3' }}
+      - name: 'Run az commands'
+        run: |
+           az list vm
